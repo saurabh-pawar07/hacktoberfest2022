@@ -1,0 +1,117 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Structure of a node of linked list
+struct Node {
+    int val;
+    Node* next;
+    Node* arbit;
+   
+    // Constructor
+    Node(int x)
+    {
+        this->val = x;
+        this->next = NULL;
+        this->arbit = NULL;
+    }
+};
+
+  // User Code 
+  
+  void insertAtTail(Node* &head, Node* &tail, int data){
+        
+        Node* temp= new Node(data);
+        if(head == NULL){
+            
+            head=temp;
+            tail=temp;
+        }
+        else{
+            
+            tail->next=temp;
+            tail=temp;
+        }
+    }
+    
+    
+    Node *copyList(Node *head)
+    {
+        Node* temp=head;
+        Node* cloneHead=NULL;
+        Node* cloneTail=NULL;
+        while(temp!= NULL){
+            
+            insertAtTail(cloneHead,cloneTail,temp->data);
+            temp=temp->next;
+        }
+        
+    map<Node* , Node* >mp; 
+    Node* org=head;
+    Node* clone=cloneHead;
+    
+    while(org!=NULL){
+        mp[org]=clone;
+        org=org->next;
+        clone=clone->next;
+    }
+    
+    org=head;
+    clone=cloneHead;
+    while(org!=NULL){
+        
+        clone->arb=mp[org->arb];
+        org=org->next;
+        clone=clone->next;
+    }
+        
+        return cloneHead;
+    }
+
+ 
+ // Function to print the linked list
+void printList(Node* head)
+{
+    cout << head->val << "("
+         << head->arbit->val << ")";
+    head = head->next;
+    while (head != NULL) {
+        cout << " -> " << head->val << "("
+             << head->arbit->val << ")";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+
+ // Driver code
+ 
+int main()
+{
+    // Creating a linked list with random pointer
+    Node* head = new Node(1);
+    head->next = new Node(2);
+    head->next->next = new Node(3);
+    head->next->next->next = new Node(4);
+    head->next->next->next->next
+        = new Node(5);
+    head->arbit = head->next->next;
+    head->next->arbit = head;
+    head->next->next->arbit
+        = head->next->next->next->next;
+    head->next->next->next->arbit
+        = head->next->next;
+    head->next->next->next->next->arbit
+        = head->next;
+   
+    // Print the original list
+    cout << "The original linked list:\n";
+    printList(head);
+   
+    // Function call
+    Node* sol = copyList(head);
+   
+    cout << "The cloned linked list:\n";
+    printList(sol);
+   
+    return 0;
+}
